@@ -1,4 +1,4 @@
-const wisdomOwned = [{neme:'christian', wisdom: "i wanna die"}]
+const wisdomOwned = []
 
 module.exports = {
 
@@ -22,13 +22,21 @@ module.exports = {
     addWisdom: (req,res) =>{
         const {name,wisdom} = req.body
         
+
+        let highestId = 0
+        for(let i = 0; i < wisdomOwned.length; i++){
+            if(wisdomOwned[i].id > highestId){
+                highestId = wisdomOwned[i].id
+            }
+        }
         let newWisdom = {
             name,
-            wisdom
+            wisdom,
+            id:highestId,
         }
         wisdomOwned.push(newWisdom)
-        res.status(200).send("wisdom added")
-        console.log(addWisdom)
+        console.log(wisdomOwned)
+        res.status(200).send(wisdomOwned)
     },
     gandhiQuotes: (req, res) =>{
         const gandhi = ['The future depends on what we do in the present', 'Its easy to stand in the crowd but it takes courage to stand alone.', 'Our greatest ability as humans is not to change the world, but to change ourselves.']

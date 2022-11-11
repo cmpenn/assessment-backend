@@ -1,7 +1,5 @@
 let baseURL = "http://localhost:4000/api/"
 
-const wisdomCallback = ({body: wisdomOwned}) => displayWisdom(wisdomOwned)
-
 const complimentBtn = document.getElementById("complimentButton")
 
 const getCompliment = () => {
@@ -19,21 +17,39 @@ const fortuneBtn = document.getElementById("fortuneButton")
 const getFortune = () =>{
     axios.get(baseURL + "fortune")
     .then(res =>{
-        const data = res.data
-        alert(data)
+        const fortune = res.data
+        alert(fortune)
     })
 }
 
 fortuneBtn.addEventListener('click', getFortune)
 
-let wisdomAdder = document.getElementById('wisdom-section')
+const wisdomAdder = document.getElementById('wisdom-section')
+const nameInput = document.getElementById('name')
+const wisdomInput = document.getElementById('wisdom')
 
-const addWisdom = (body) =>{
-    axios.post(baseURL + '/wisdom-adder', body)
-    .then(wisdomCallback)
+const addWisdom = (event) =>{
+    event.preventDefault()
+
+    const myBod = {
+        name: nameInput.value,
+        wisdom: wisdomInput.value
+    }
+
+    axios.post(baseURL + "wisdom-adder", myBod)
+    .then((response) => {
+        let db = response.data
+        // for(let i =0; i < db.length; i++){}
+        console.log(db)
+    })
+    .catch((err) => {
+        console.log("error")
+    })
+    nameInput.value = ''
+    wisdomInput.value = ''
 }
 
-wisdomAdder.addEventListener('click', addWisdom)
+wisdomAdder.addEventListener('submit', addWisdom)
 
 let gandhiBtn = document.getElementById('gandhiButton')
 
